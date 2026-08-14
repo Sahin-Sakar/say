@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 HOST = "0.0.0.0"
@@ -7,7 +8,10 @@ PORT = int(os.environ.get("PORT", "8000"))
 
 class HelloHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        body = b"Hello. Hi!"
+        now = datetime.now()
+        body = (
+            f"Hello. Hi!\n{now.strftime('%Y-%m-%d')}\n{now.strftime('%H:%M:%S')}"
+        ).encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "text/plain; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
